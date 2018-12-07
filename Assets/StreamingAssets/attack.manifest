@@ -1,36 +1,16 @@
 ManifestFileVersion: 0
-CRC: 1490397811
+CRC: 1384384847
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5011c86b8ff9a2ad491f9e24ee34a081
+    Hash: 1168cf4422361b05e94a50453b01ffcc
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 007d76f9cbcf38780088c7156bae6829
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
 HashAppended: 0
 ClassTypes:
-- Class: 1
-  Script: {instanceID: 0}
-- Class: 4
-  Script: {instanceID: 0}
-- Class: 21
-  Script: {instanceID: 0}
-- Class: 23
-  Script: {instanceID: 0}
 - Class: 28
   Script: {instanceID: 0}
-- Class: 33
-  Script: {instanceID: 0}
-- Class: 43
-  Script: {instanceID: 0}
-- Class: 48
-  Script: {instanceID: 0}
-- Class: 90
-  Script: {instanceID: 0}
-- Class: 95
-  Script: {instanceID: 0}
-- Class: 137
-  Script: {instanceID: 0}
 Assets:
-- Assets/Resources/Attack.prefab
+- Assets/GameData/Modle/benghuai/Avatar_Kiana_C2_Texture_Hair_Color_Common.png
 Dependencies: []

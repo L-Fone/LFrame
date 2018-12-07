@@ -87,16 +87,16 @@ public class ResourceTest : MonoBehaviour
 	}
 
 	//二进制文件反序列化测试
-	void BinaryDeSerializeTest()
-	{
-		TestSerialize testSerialize = BinaryDeSerialize();
-		Debug.Log(testSerialize.ID);
-		Debug.Log(testSerialize.Name);
-		foreach (var item in testSerialize.Lists)
-		{
-			Debug.Log(item);
-		}
-	}
+	// void BinaryDeSerializeTest()
+	// {
+	// 	TestSerialize testSerialize = BinaryDeSerialize();
+	// 	Debug.Log(testSerialize.ID);
+	// 	Debug.Log(testSerialize.Name);
+	// 	foreach (var item in testSerialize.Lists)
+	// 	{
+	// 		Debug.Log(item);
+	// 	}
+	// }
 
 	//二进制文件序列化
 	void BinarySerialize(TestSerialize testSerialize)
@@ -110,26 +110,26 @@ public class ResourceTest : MonoBehaviour
 	}
 
 	//二进制文件反序列化	
-	TestSerialize BinaryDeSerialize()
-	{
-		TextAsset textAsset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/test.bytes");
-		MemoryStream memoryStream = new MemoryStream(textAsset.bytes);
-		BinaryFormatter bf = new BinaryFormatter();
-		TestSerialize testSerialize = (TestSerialize)bf.Deserialize(memoryStream);
-		return testSerialize;
-	}
+	// TestSerialize BinaryDeSerialize()
+	// {
+	// 	TextAsset textAsset = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/test.bytes");
+	// 	MemoryStream memoryStream = new MemoryStream(textAsset.bytes);
+	// 	BinaryFormatter bf = new BinaryFormatter();
+	// 	TestSerialize testSerialize = (TestSerialize)bf.Deserialize(memoryStream);
+	// 	return testSerialize;
+	// }
 
 	//读取序列化的Assets文件
-	void ReadTestAssets()
-	{
-		AssetSerializer assets = UnityEditor.AssetDatabase.LoadAssetAtPath<AssetSerializer>("Assets/LFram/Scripts/TestAsset.asset");
+	// void ReadTestAssets()
+	// {
+	// 	AssetSerializer assets = UnityEditor.AssetDatabase.LoadAssetAtPath<AssetSerializer>("Assets/LFram/Scripts/TestAsset.asset");
 
-		Debug.Log(assets.ID);
-		Debug.Log(assets.Name);
-		foreach (var item in assets.TestList)
-		{
-			Debug.Log(item);
-		}
-	}
+	// 	Debug.Log(assets.ID);
+	// 	Debug.Log(assets.Name);
+	// 	foreach (var item in assets.TestList)
+	// 	{
+	// 		Debug.Log(item);
+	// 	}
+	// }
 
 }
