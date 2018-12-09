@@ -15,6 +15,37 @@ public class ResourceTest : MonoBehaviour
 		//BinarySerializeTest();
 		//BinaryDeSerializeTest();
 		//ReadTestAssets();
+		TestLoadAB();
+	}
+
+	void TestLoadAB()
+	{
+		AssetBundle assetBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/abdata");
+		TextAsset textAsset = assetBundle.LoadAsset<TextAsset>("AssetBundleConfig");
+		MemoryStream memoryStream = new MemoryStream(textAsset.bytes);
+		BinaryFormatter bf = new BinaryFormatter();
+		AssetBundleConfig abConfig = (AssetBundleConfig)bf.Deserialize(memoryStream);
+		memoryStream.Close();
+		string path = "Assets/GameData/Prefabs/Attack.prefab";
+		ABBase abBase = null;
+		uint crc = Crc32.GetCrc32(path);
+		for (int i = 0; i < abConfig.ABList.Count; i++)
+		{
+			if(abConfig.ABList[i].Crc == crc)
+			{
+				abBase = abConfig.ABList[i];
+			}
+		}
+
+		//加载依赖项
+		for (int i = 0; i < abBase.ABDependce.Count; i++)
+		{
+			AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + abBase.ABDependce[i]);
+		}
+
+		//加载AB包
+		AssetBundle bundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + abBase.ABName);
+		GameObject go = GameObject.Instantiate(bundle.LoadAsset<GameObject>(abBase.AssetName));
 	}
 
 	//XML序列化测试

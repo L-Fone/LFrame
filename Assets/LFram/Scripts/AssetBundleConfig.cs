@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 [System.Serializable]
 public class AssetBundleConfig 
 {
-	[XmlAnyElement("ABList")]
+	[XmlElement("ABList")]
 	public List<ABBase> ABList{ get; set;}
 	
 }

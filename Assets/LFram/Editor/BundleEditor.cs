@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class BundleEditor
 {
 	/* 所有文件夹AB包Dict; key = ABName; value = path */
-	public static Dictionary<string,string> m_AllFileDir = new Dictionary<string, string>();
+	private static Dictionary<string,string> m_AllFileDir = new Dictionary<string, string>();
 
 	/* 路径过滤List */
-	public static List<string> m_AllFileAB = new List<string>();
+	private static List<string> m_AllFileAB = new List<string>();
 
 	/* 单个Prefab的AB包; key = prefab名字; value = prefab所有依赖项路径列表*/
-	public static Dictionary<string,List<string>> m_allPrefabDir = new Dictionary<string, List<string>>();
+	private static Dictionary<string,List<string>> m_allPrefabDir = new Dictionary<string, List<string>>();
+
+	//[过滤]存储打包所需要的(有效的)文件路径的List
+	private static List<string> m_ConfigFile = new List<string>();
 
 
 	//初始化数据
@@ -22,6 +27,7 @@ public class BundleEditor
 		m_AllFileDir.Clear();
 		m_AllFileAB.Clear();
 		m_allPrefabDir.Clear();
+		m_ConfigFile.Clear();
 	}
 
 	[MenuItem("Tools/打包")]
@@ -34,23 +40,24 @@ public class BundleEditor
 
 		/* ------------------------------------按文件夹[材质、图片等资源]存储全部打包路径-----------------------------------------------  */
 
-		foreach (ABConfig.FileDirName item in abConfig.m_allFileDirAB)
+		foreach (ABConfig.FileDirName fileDir in abConfig.m_allFileDirAB)
 		{
-			if(m_AllFileDir.ContainsKey(item.ABName))
+			if(m_AllFileDir.ContainsKey(fileDir.ABName))
 			{
 				Debug.LogError("AB包名配置名字重复，请检查");
 			}
 			else
 			{
-				m_AllFileDir.Add(item.ABName, item.Path);
-				m_AllFileAB.Add(item.Path);
+				m_AllFileDir.Add(fileDir.ABName, fileDir.Path);
+				m_AllFileAB.Add(fileDir.Path);
+				m_ConfigFile.Add(fileDir.Path);
 			}
 		}
 
 		/* ------------------------------------按文件[Prefab]存储全部打包历经-----------------------------------------------  */
 		
 		//找到[abConfig.m_allPrefabPaht]路径下所有prefab的唯一标识 GUID
-		string[] allStr = AssetDatabase.FindAssets("t:Prefab", abConfig.m_allPrefabPaht.ToArray());
+		string[] allStr = AssetDatabase.FindAssets("t:Prefab", abConfig.m_allPrefabPath.ToArray());
 		for (int i = 0; i < allStr.Length; i++)
 		{
 			//通过唯一标识GUID得到路径
@@ -59,6 +66,8 @@ public class BundleEditor
 			
 			//加一个进度条
 			EditorUtility.DisplayProgressBar("查找Prefab", "Prefab:" + path, i*1.0f/allStr.Length);
+
+			m_ConfigFile.Add(path);
 
 			//非过滤的路径才添加
 			if(!ContainsAllfileAB(path))
@@ -73,10 +82,10 @@ public class BundleEditor
 				{
 					//Debug.Log(allDepend[j]);
 					//该依赖项不在过滤的路径里面 并且依赖项不是脚本
-					if(!ContainsAllfileAB(allDepend[i]) && !allDepend[i].EndsWith(".cs"))
+					if(!ContainsAllfileAB(allDepend[j]) && !allDepend[j].EndsWith(".cs"))
 					{
-						m_AllFileAB.Add(allDepend[i]);//加入过滤列表
-						allDependPath.Add(allDepend[i]);//加入临时列表
+						m_AllFileAB.Add(allDepend[j]);//加入过滤列表
+						allDependPath.Add(allDepend[j]);//加入临时列表
 					}
 				}
 				//添加每个prefab的所有依赖路径
@@ -103,7 +112,7 @@ public class BundleEditor
 		//设置[Prefab]AB包
 		foreach (string name in m_allPrefabDir.Keys)
 		{
-			SetABName(name,m_allPrefabDir[name]);
+			SetABName(name, m_allPrefabDir[name]);
 		}
 
 		/* ------------------------------------打包AB包 生成配置表-----------------------------------------------  */
@@ -132,11 +141,6 @@ public class BundleEditor
 		//清除进度条
 		EditorUtility.ClearProgressBar();
 
-
-
-
-		
-		
 	}
 
 	///<summary>
@@ -179,8 +183,16 @@ public class BundleEditor
 			for (int j = 0; j < allBundlePath.Length; j++)
 			{
 				//Debug.Log(allBundlePath[j]);
-				if(allBundlePath[j].EndsWith(".cs")){ continue; }
-				resPathDict.Add(allBundlePath[j], allBundles[i]);
+				//排除不需要打包的路径
+				if(allBundlePath[j].EndsWith(".cs"))
+				{ 
+					continue; 
+				}
+				Debug.Log("此AB包：" + allBundles[i] + "下面包含的资源文件路径：" + allBundlePath[j]);
+				if(ValidPath(allBundlePath[j]))
+				{
+					resPathDict.Add(allBundlePath[j], allBundles[i]);
+				}
 			}
 		}
 
@@ -232,7 +244,10 @@ public class BundleEditor
 				if(resPathDict.TryGetValue(tempPath, out abName))
 				{
 					//如果路径和自己一样[说明在同一个AB包里面] 则过滤掉
-					if(abName == resPathDict[path]){ continue; }
+					if(abName == resPathDict[path])
+					{ 
+						continue; 
+					}
 					//如果依赖列表里面没有包含 则添加
 					if(!abBase.ABDependce.Contains(abName))
 					{
@@ -240,11 +255,32 @@ public class BundleEditor
 					}
 				}
 			}
+			config.ABList.Add(abBase);
 		}
 
 		//写入XML
+		string xmlPath = PathConst.ABCONFIG_XML_PATH;
+		if(File.Exists(xmlPath)){ File.Delete(xmlPath); }
+		FileStream fileStream = new FileStream(xmlPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+		StreamWriter sw = new StreamWriter(fileStream, System.Text.Encoding.UTF8);
+		//序列化，传入写入类型
+		XmlSerializer xs = new XmlSerializer(config.GetType());
+		xs.Serialize(sw, config);
+		sw.Close();		
+		fileStream.Close();
 
-		//写入二进制
+		//二进制文件不需要记录路径
+		foreach (ABBase abBase in config.ABList)
+		{
+			abBase.Path = "";	
+		}
+
+		//写入二进制	
+		string bytePath = PathConst.ABCONFIG_BYTES_PATH;
+		FileStream fs = new FileStream(bytePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+		BinaryFormatter bf = new BinaryFormatter();
+		bf.Serialize(fs, config);
+		fs.Close();
 	}
 
 
@@ -270,7 +306,7 @@ public class BundleEditor
 			//删除以前遗留的AB包
 			else
 			{
-				Debug.Log("此AB包被删除或者改名了，name = " + files[i].Name);
+				//Debug.Log("此AB包被删除或者改名了，name = " + files[i].Name);
 				if(File.Exists(files[i].FullName))
 				{
 					//删除多余AB包
@@ -304,7 +340,24 @@ public class BundleEditor
 	{
 		for (int i = 0; i < m_AllFileAB.Count; i++)
 		{
-			if(path == m_AllFileAB[i] || path.Contains(m_AllFileAB[i]))
+			if(path == m_AllFileAB[i] || (path.Contains(m_AllFileAB[i]) && (path.Replace(m_AllFileAB[i],"")[0] == '/')))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	///<summary>
+	///	判断是否是有效路径
+	///</summary>
+	///<param name="path"></param>
+	///<returns></returns>
+	static bool ValidPath(string path)
+	{
+		for (int i = 0; i < m_ConfigFile.Count; i++)
+		{
+			if(path.Contains(m_ConfigFile[i]))
 			{
 				return true;
 			}
