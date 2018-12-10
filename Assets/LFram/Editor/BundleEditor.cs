@@ -291,8 +291,16 @@ public class BundleEditor
 	{
 		//获取所有的AB包名字
 		string[] allBundleName = AssetDatabase.GetAllAssetBundleNames();
+		DirectoryInfo direction = null;
 		//通过路径获取文件夹信息
-		DirectoryInfo direction = new DirectoryInfo(PathConst.BUNDLE_TARGET_PATH);
+		if(!Directory.Exists(PathConst.BUNDLE_TARGET_PATH))
+		{
+			direction = Directory.CreateDirectory(PathConst.BUNDLE_TARGET_PATH);
+		}
+		else
+		{
+			direction = new DirectoryInfo(PathConst.BUNDLE_TARGET_PATH);
+		}
 		//获取文件夹里面的所有文件
 		FileInfo[] files = direction.GetFiles("*",SearchOption.AllDirectories);
 

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AssetBundleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ABList Path="Assets/LFram/ABData/AssetBundleConfig.bytes" Crc="2339679611" ABName="abconfig" AssetName="AssetBundleConfig.bytes" />
   <ABList Path="Assets/GameData/Prefabs/Attack.prefab" Crc="192126642" ABName="attack" AssetName="Attack.prefab">
     <ABDependce>shader</ABDependce>
   </ABList>
