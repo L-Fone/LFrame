@@ -216,3 +216,123 @@ public class DoubleLinkedListNode<T> where T : class, new()
 	//当前节点
 	public T CurNode = null;
 }
+
+
+/// <summary>
+/// 封装双向链表[管理器]
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class CMapList<T> where T : class, new()
+{
+	//双向链表
+	DoubleLinkedList<T> m_DLink = new DoubleLinkedList<T>();
+	//按类型存储双向链表节点
+	Dictionary<T,DoubleLinkedListNode<T>> m_FindMap = new Dictionary<T, DoubleLinkedListNode<T>>();
+
+	/// <summary>
+	/// 插入到表头
+	/// </summary>
+	/// <param name="t"></param>
+	public void InsertToHead(T t)
+	{
+		DoubleLinkedListNode<T> node = null;
+		if(m_FindMap.TryGetValue(t, out node) && node != null)
+		{
+			m_DLink.AddToHead(node);
+			return;
+		}
+		m_DLink.AddToHead(t);
+		m_FindMap.Add(t, m_DLink.Head);
+	}
+
+	/// <summary>
+	/// 从表尾弹出一个节点
+	/// </summary>
+	public void Pop()
+	{
+		if(m_DLink.Tail != null)
+		{
+			Remove(m_DLink.Tail.CurNode);
+		}
+	}
+
+	/// <summary>
+	/// 删除某个节点
+	/// </summary>
+	/// <param name="t"></param>
+	public void Remove(T t)
+	{
+		DoubleLinkedListNode<T> node = null;
+		if(m_FindMap.TryGetValue(t, out node) || node == null)
+		{
+			return;
+		}
+		m_DLink.RemoveNode(node);
+		m_FindMap.Remove(t);
+	}
+
+	/// <summary>
+	/// 获取尾部的节点
+	/// </summary>
+	public T GetTail()
+	{
+		return m_DLink.Tail == null ? null : m_DLink.Tail.CurNode;
+	}
+
+	/// <summary>
+	/// 返回当前存储的节点个数
+	/// </summary>
+	/// <returns></returns>
+	public int Size()
+	{
+		return m_FindMap.Count;
+	}
+
+	/// <summary>
+	/// 查找是否存在该节点
+	/// </summary>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	public bool Find(T t)
+	{
+		DoubleLinkedListNode<T> node = null;
+		if(!m_FindMap.TryGetValue(t, out node) || node == null)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// 把某个节点移动到头部并刷新节点
+	/// </summary>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	public bool Refresh(T t)
+	{
+		DoubleLinkedListNode<T> node = null;
+		if(!m_FindMap.TryGetValue(t, out node) || node == null)
+		{
+			return false;
+		}
+
+		m_DLink.MoveToHead(node);
+		return true;
+	}
+
+	/// <summary>
+	/// 清空双向链表
+	/// </summary>
+	public void Clear()
+	{
+		while (m_DLink.Tail != null)
+		{
+			Remove(m_DLink.Tail.CurNode);
+		}
+	}
+
+	~CMapList()
+	{
+		Clear();
+	}
+}

@@ -23,4 +23,20 @@ public class PathConst
 
 	//[ABConfig.ab] config包的加载路径
 	public static string ABCONFIG_LOAD_PATH = Application.streamingAssetsPath + "/";
+
+	//是否从AssetBundle进行加载
+	public static bool LoadFromAssetBundle = false;
+}
+
+
+
+/// <summary>
+/// 资源加载优先级
+/// </summary>
+public enum LoadResPriority
+{
+	RES_HIGHT = 0,	// 最高优先级	
+	RES_MIDDLE,		// 中优先级
+	RES_SLOW,		// 低优先级
+	RES_NUM			// 优先级个数
 }

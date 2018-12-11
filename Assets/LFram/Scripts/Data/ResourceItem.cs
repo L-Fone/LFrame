@@ -32,4 +32,39 @@ public class ResourceItem
 	/// </summary>
 	public AssetBundle CurBundle = null;
 
+	/* ------------------------------------------------------ */
+
+	/// <summary>
+	/// 资源对象
+	/// </summary>
+	public Object obj = null;
+
+	/// <summary>
+	/// 最后使用时间
+	/// </summary>
+	public float LastUseTime = 0.0f;
+
+	/// <summary>
+	/// 资源唯一标识
+	/// </summary>
+	public int GUID = 0;
+
+	protected int m_RefCount = 0;
+
+	/// <summary>
+	/// 引用计数
+	/// </summary>
+	public int RefCount
+	{
+		get{ return m_RefCount; }
+		set
+		{ 
+			m_RefCount = value;
+
+			if(m_RefCount < 0)
+			{
+				Debug.LogError("引用计数小于0，Count = " + m_RefCount + (obj != null ? obj.name : "未知名字"));
+			}
+		}
+	}
 }
