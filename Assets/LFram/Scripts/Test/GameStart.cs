@@ -12,13 +12,26 @@ public class GameStart : MonoBehaviour
 	{
 		//加载配置表
 		AssetBundleManager.Instance.LoadAssetBundleConfig();
+		ResourceManager.Instance.Init(this);
 	}
 
 	void Start () 
 	{
-		//资源加载
-		clip = ResourceManager.Instance.LoadResource<AudioClip>("Assets/GameData/Sounds/senlin.mp3");
-		audio.clip = clip;
+		//资源同步加载
+		// clip = ResourceManager.Instance.LoadResource<AudioClip>("Assets/GameData/Sounds/senlin.mp3");
+		// audio.clip = clip;
+		// audio.Play();
+
+		/* ----------------- */
+
+		//资源异步加载
+		ResourceManager.Instance.AsyncLoadResource("Assets/GameData/Sounds/menusound.mp3", OnLoadFinish, LoadResPriority.RES_MIDDLE);
+	}
+
+	//资源异步加载回调
+	void OnLoadFinish(string path, Object obj, Hashtable hh)
+	{
+		audio.clip = obj as AudioClip;
 		audio.Play();
 	}
 
@@ -29,8 +42,16 @@ public class GameStart : MonoBehaviour
 			audio.Stop();
 			audio.clip = null;
 			//资源卸载
-			ResourceManager.Instance.DisposeResource(clip);
+			ResourceManager.Instance.DisposeResource(clip,true);
 		}
+	}
+
+	//清空电脑缓存
+	private void OnApplicationQuit() 
+	{
+#if UNITY_EDITOR
+		Resources.UnloadUnusedAssets();
+#endif
 	}
 
 }

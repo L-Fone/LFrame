@@ -26,6 +26,9 @@ public class PathConst
 
 	//是否从AssetBundle进行加载
 	public static bool LoadFromAssetBundle = false;
+
+	//异步资源加载 分帧延时[单位微秒]
+	public static long MAX_LOADRESOURCE_TIME = 200000;
 }
 
 

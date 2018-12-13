@@ -49,6 +49,11 @@ public class ResourceItem
 	/// </summary>
 	public int GUID = 0;
 
+	/// <summary>
+	/// 跳场景时否需要清掉
+	/// </summary>
+	public bool Clear = true;
+
 	protected int m_RefCount = 0;
 
 	/// <summary>
