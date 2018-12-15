@@ -99,12 +99,20 @@ public class ResourceManager : Singleton<ResourceManager>
     /// </summary>
     public void ClearCache()
     {
-        while (m_NoRefrenceAssetMapList.Size() > 0)
+        List<ResourceItem> tempList = new List<ResourceItem>();
+        foreach (ResourceItem item in AssetDict.Values)
         {
-            ResourceItem item = m_NoRefrenceAssetMapList.GetTail();
-            DestroyResourceItem(item, true);
-            m_NoRefrenceAssetMapList.Pop();
+            if(item.Clear)
+            {
+                tempList.Add(item);
+            }
         }
+
+        foreach (ResourceItem item in tempList)
+        {
+            DestroyResourceItem(item, true);
+        }
+        tempList.Clear();
     }
 
     /* ---------------------------------------资源预加载-------------------------------------------------- */
@@ -231,6 +239,73 @@ public class ResourceManager : Singleton<ResourceManager>
 
     }
 
+
+    /// <summary>
+    /// 游戏资源同步加载[针对给 ObjectManager的接口]
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="resObj"></param>
+    /// <returns></returns>
+    public ResourceObject LoadResource(string path, ResourceObject resObj)
+    {   
+        if(resObj == null)
+        {
+            return null;
+        }
+        uint crc = resObj.Crc == 0 ? Crc32.GetCrc32(path) : resObj.Crc;
+
+        //尝试从缓存当中去取
+        ResourceItem item = GetCacheResourceItem(crc);
+        if(item != null)
+        {
+            resObj.ResItem = item;
+            return resObj;
+        }
+
+        //缓存取不到，则进行加载
+        Object obj = null;
+        
+#if UNITY_EDITOR
+        //编辑器下的加载
+        if(!PathConst.LoadFromAssetBundle)
+        {
+            item = AssetBundleManager.Instance.FindResouceItem(crc);
+
+            if(item.obj != null)
+            {
+                obj = item.obj;
+            }
+            else
+            {
+                obj = LoadAssetByEditor<Object>(path);
+            }
+        }
+#endif
+
+        if(obj == null)
+        {
+            item = AssetBundleManager.Instance.LoadReouseAssetBundle(crc);
+
+            if(item != null && item.CurBundle != null)
+            {
+                if(item.obj != null)
+                {
+                    obj = item.obj;
+                }
+                else
+                {
+                    obj = item.CurBundle.LoadAsset<Object>(item.AssetName);
+                }                
+            }
+        }
+
+        CacheResource(path, ref item, crc, obj);
+        resObj.ResItem = item;
+        resObj.Clear = item.Clear;
+
+        return resObj;
+    }
+
     /// <summary>
     /// 获取缓存的资源item
     /// </summary>
@@ -345,6 +420,33 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <param name="obj"></param>
     /// <param name="destroyObj"></param>
     /// <returns></returns>
+    public bool DisposeResource(ResourceObject resobj, bool destroyObj = false)
+    {
+        if(resobj == null)
+        {
+            return false;
+        }        
+        ResourceItem item = null;
+        if(!AssetDict.TryGetValue(resobj.Crc, out item) || item == null)
+        {
+            Debug.LogError("AssetDict 未包含该资源：" + resobj.CloneObj.name + "__原因：可能释放了多次，请检查！！！");
+        }
+
+        item.RefCount --;
+        
+        //卸载资源
+        GameObject.Destroy(resobj.CloneObj);
+
+        DestroyResourceItem(item, destroyObj);
+        return true;
+    }
+
+    /// <summary>
+    /// 释放内存中的资源[不需要实例化的资源卸载]
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="destroyObj"></param>
+    /// <returns></returns>
     public bool DisposeResource(string path, bool destroyObj = false)
     {
         if(string.IsNullOrEmpty(path))
@@ -389,14 +491,14 @@ public class ResourceManager : Singleton<ResourceManager>
             return;
         }
 
-        if(!AssetDict.Remove(item.Crc))
+        if(!destroyCache)
         {
+            //m_NoRefrenceAssetMapList.InsertToHead(item);
             return;
         }
 
-        if(!destroyCache)
+        if(!AssetDict.Remove(item.Crc))
         {
-            m_NoRefrenceAssetMapList.InsertToHead(item);
             return;
         }
 

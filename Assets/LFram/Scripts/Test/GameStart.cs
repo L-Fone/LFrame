@@ -10,9 +10,14 @@ public class GameStart : MonoBehaviour
 
 	private void Awake() 
 	{
+		DontDestroyOnLoad(this);
 		//加载配置表
 		AssetBundleManager.Instance.LoadAssetBundleConfig();
 		ResourceManager.Instance.Init(this);
+		Transform recycla = this.transform.Find("RecyclaPool").transform;
+		Transform sceneTrs = this.transform.Find("SceneTrs").transform;
+		ObjectManager.Instance.Init(recycla, sceneTrs);
+
 	}
 
 	void Start () 
@@ -50,6 +55,7 @@ public class GameStart : MonoBehaviour
 	private void OnApplicationQuit() 
 	{
 #if UNITY_EDITOR
+		ResourceManager.Instance.ClearCache();
 		Resources.UnloadUnusedAssets();
 #endif
 	}
