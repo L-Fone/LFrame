@@ -16,7 +16,7 @@ public class ObjectManager : Singleton<ObjectManager>
 	//游戏对象列表对象池
 	protected Dictionary<uint, List<ResourceObject>> ObjectPool = new Dictionary<uint, List<ResourceObject>>();
 	//[ResourceObject]类对象池
-	protected ClassObjectPool<ResourceObject> ResourceObjectPool = ObjectManager.Instance.GetOrCreatClassPool<ResourceObject>(1000);
+	protected ClassObjectPool<ResourceObject> ResourceObjectPool = null;
 
 	//暂存ResourceObject的Dict key = GUID value = ResourceObject
 	protected Dictionary<int, ResourceObject> ResourceObjectDict = new Dictionary<int, ResourceObject>();
@@ -35,6 +35,7 @@ public class ObjectManager : Singleton<ObjectManager>
 	{
 		RecyclaPoolTrs = recyclaTrs;
 		SceneTrs = sceneTrs;
+		ResourceObjectPool = ObjectManager.Instance.GetOrCreatClassPool<ResourceObject>(1000);
 	}
 	
 	/// <summary>
@@ -90,13 +91,14 @@ public class ObjectManager : Singleton<ObjectManager>
 		if(ObjectPool.TryGetValue(crc, out list) && list != null && list.Count > 0)
 		{
 			//ResourceManager的引用计数
+			ResourceManager.Instance.IncreaseResourceRef(crc);
 
 			ResourceObject item = list[0];
 			list.RemoveAt(0);
 			GameObject obj = item.CloneObj;
 			//编辑器下进行改名
 			//判空 比 obj == null 的效率要高
-			if(System.Object.ReferenceEquals(obj,null))
+			if(!System.Object.ReferenceEquals(obj,null))
 			{
 
 				item.Already = false;
@@ -115,6 +117,53 @@ public class ObjectManager : Singleton<ObjectManager>
 
 #endregion
 
+	/* ---------------------------------------资源异步实例化加载-------------------------------------------------- */
+
+	/// <summary>
+	/// 资源异步实例化对象加载
+	/// </summary>
+	/// <param name="path">资源路径</param>
+	/// <param name="dealfinish">完成回调</param>
+	/// <param name="priority">优先级</param>
+	/// <param name="param">传递的参数</param>
+	/// <param name="setScenceObj">是否放在默认节点下</param>
+	/// <param name="bClear">跳转场景是否清除缓存</param>
+	public void InstantiateObjectAsync(string path, OnAsyncObjFinish dealfinish, LoadResPriority priority, Hashtable param = null, bool setScenceObj = false, bool bClear = true)
+	{
+		if(string.IsNullOrEmpty(path))
+		{
+			return;
+		}
+		//先从缓存池里取
+		uint crc = Crc32.GetCrc32(path);
+		ResourceObject resobj = GetObjectFromPool(crc);
+		if(resobj == null)
+		{
+			if(setScenceObj)
+			{
+				resobj.CloneObj.transform.SetParent(SceneTrs, false);
+			}
+
+			if(dealfinish != null)
+			{
+				dealfinish(path, resobj.CloneObj, param);
+			}
+
+			return;
+		}
+
+		//如果缓存池里没有该对象 则加载
+		resobj = ResourceObjectPool.Spawn(true);
+		resobj.Crc = crc;
+		resobj.SetSceneParent = setScenceObj;
+		resobj.Clear = bClear;
+		resobj.DealFinish = dealfinish;
+		resobj.Param = param;
+
+		//调用ResourceManager的异步加载接口
+	}
+
+
 	/* ---------------------------------------资源卸载-------------------------------------------------- */
 
 	/// <summary>
@@ -124,7 +173,7 @@ public class ObjectManager : Singleton<ObjectManager>
 	/// <param name="maxCacheCount">最大缓存个数：-1为不限</param>
 	/// <param name="destroyCache">是否清除缓存</param>
 	/// <param name="recyclaParent">是否回收到对象回收池节点下</param>
-	public void DisposeObject(GameObject obj, int maxCacheCount = -1,bool destroyCache = false, bool recyclaParent = false)
+	public void DisposeObject(GameObject obj, int maxCacheCount = -1,bool destroyCache = false, bool recyclaParent = true)
 	{
 		if(obj == null)
 		{
@@ -199,7 +248,7 @@ public class ObjectManager : Singleton<ObjectManager>
 				resobj.Already = true;
 				
 				//ResourceManager 做引用计数
-
+				ResourceManager.Instance.DecreaseResourceRef(resobj);
 			}
 
 			//达到了最大缓存个数

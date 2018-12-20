@@ -681,6 +681,61 @@ public class ResourceManager : Singleton<ResourceManager>
         }//where end
     }
 
+    /* ---------------------------------------引用计数-------------------------------------------------- */
+
+    /// <summary>
+    /// 根据ResoourceOebject增加引用计数
+    /// </summary>
+    /// <returns></returns>
+    public int IncreaseResourceRef(ResourceObject resobj, int count = 1)
+    {
+        return resobj == null ? IncreaseResourceRef(resobj.Crc, count) : 0;
+    }
+
+    /// <summary>
+    /// 根据path crc增加引用计数
+    /// </summary>
+    /// <returns></returns>
+    public int IncreaseResourceRef(uint crc, int count = 1)
+    {
+        ResourceItem item = null;
+        if(!AssetDict.TryGetValue(crc, out item) || item == null)
+        {
+            return 0;
+        }
+        item.RefCount += count;
+        item.LastUseTime = Time.realtimeSinceStartup;
+
+        return item.RefCount;
+    }  
+
+
+    /// <summary>
+    /// 根据ResoourceOebject减少引用计数
+    /// </summary>
+    /// <returns></returns>
+    public int DecreaseResourceRef(ResourceObject resobj, int count = 1)
+    {
+        return resobj == null ? DecreaseResourceRef(resobj.Crc, count) : 0;
+    }
+
+
+    /// <summary>
+    /// 根据path crc减少引用计数
+    /// </summary>
+    /// <returns></returns>
+    public int DecreaseResourceRef(uint crc, int count = 1)
+    {
+        ResourceItem item = null;
+        if(!AssetDict.TryGetValue(crc, out item) || item == null)
+        {
+            return 0;
+        }
+        item.RefCount -= count;
+        return item.RefCount;
+    }
+
+
 }
 
 

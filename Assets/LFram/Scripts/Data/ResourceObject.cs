@@ -32,6 +32,26 @@ public class ResourceObject
 	/// </summary>
 	public bool Already = false;
 
+	/* -----------------异步实例化------------------------- */
+
+	/// <summary>
+	/// [异步实例化]是否放到场景节点下面
+	/// </summary>
+	public bool SetSceneParent = false;
+
+	/// <summary>
+	/// [异步实例化]实例化资源加载完成回调
+	/// </summary>
+	public OnAsyncObjFinish DealFinish = null;
+
+	/// <summary>
+	/// [异步实例化]实例化资源加载传递的参数
+	/// </summary>
+	public Hashtable Param = null;
+
+
+	/* -----------------异步实例化------------------------- */
+
 	/// <summary>
 	/// 储存的GUID
 	/// </summary>
@@ -48,5 +68,8 @@ public class ResourceObject
 		Clear = true;
 		Already = false;
 		GUID = 0;
+		SetSceneParent = false;
+		DealFinish = null;
+		Param = null;
 	}
 }
