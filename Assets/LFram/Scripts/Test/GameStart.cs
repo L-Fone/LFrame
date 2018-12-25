@@ -35,7 +35,13 @@ public class GameStart : MonoBehaviour
 		//ResourceManager.Instance.AsyncLoadResource("Assets/GameData/Sounds/menusound.mp3", OnLoadFinish, LoadResPriority.RES_MIDDLE);
 
 		//同步实例化资源
-		obj = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true);
+		//obj = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true);
+
+		//异步实例化资源
+		//ObjectManager.Instance.InstantiateObjectAsync("Assets/GameData/Prefabs/Attack.prefab", OnInstantiateFinish, LoadResPriority.RES_HIGHT,null,true);
+
+		//预加载[实例化]资源
+		ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab", 10);
 	}
 
 	//资源异步加载回调
@@ -44,6 +50,12 @@ public class GameStart : MonoBehaviour
 	// 	audio.clip = obj as AudioClip;
 	// 	audio.Play();
 	// }
+
+	//异步实例化回调
+	void OnInstantiateFinish(string path, Object obj, Hashtable param = null)
+	{
+		this.obj = obj as GameObject;
+	}
 
 	private void Update() 
 	{
@@ -59,7 +71,11 @@ public class GameStart : MonoBehaviour
 		}
 		else if(Input.GetKeyDown(KeyCode.C))
 		{
-			obj = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true);
+			//同步实例化资源
+			//obj = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true);
+
+			//异步实例化资源
+			ObjectManager.Instance.InstantiateObjectAsync("Assets/GameData/Prefabs/Attack.prefab", OnInstantiateFinish, LoadResPriority.RES_HIGHT,null,true);
 		}
 		else if(Input.GetKeyDown(KeyCode.Q))
 		{
