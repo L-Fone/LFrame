@@ -294,12 +294,17 @@ public class ResourceManager : Singleton<ResourceManager>
         {
             item = AssetBundleManager.Instance.FindResouceItem(crc);
 
-            if(item.obj != null)
+            if(item != null && item.obj != null)
             {
                 obj = item.obj;
             }
             else
             {
+                if(item == null)
+                {
+                    item = new ResourceItem();
+                    item.Crc = crc;
+                }
                 obj = LoadAssetByEditor<Object>(path);
             }
         }
@@ -674,6 +679,12 @@ public class ResourceManager : Singleton<ResourceManager>
                     yield return new WaitForSeconds(0.5f);
 
                     item = AssetBundleManager.Instance.FindResouceItem(loadingItem.Crc);
+
+                    if(item == null)
+                    {
+                        item = new ResourceItem();
+                        item.Crc = loadingItem.Crc;
+                    }
                 }
 #endif
 

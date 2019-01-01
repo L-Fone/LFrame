@@ -53,6 +53,11 @@ public class ResourceObject
 	/* -----------------异步实例化------------------------- */
 
 	/// <summary>
+	/// 离线数据[用于还原状态]
+	/// </summary>
+	public OfflineData offlineData = null;
+
+	/// <summary>
 	/// 储存的GUID
 	/// </summary>
 	public int GUID = 0;
@@ -71,5 +76,6 @@ public class ResourceObject
 		SetSceneParent = false;
 		DealFinish = null;
 		Param = null;
+		offlineData = null;
 	}
 }

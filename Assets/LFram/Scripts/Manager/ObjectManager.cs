@@ -86,7 +86,9 @@ public class ObjectManager : Singleton<ObjectManager>
 				{
 					GameObject.Destroy(resobj.CloneObj);
 					ResourceObjectDict.Remove(resobj.CloneObj.GetInstanceID());
+					resobj.Reset();
 					ResourceObjectPool.Recycle(resobj);
+					st.Remove(resobj);
 				}
 			}
 
@@ -139,6 +141,23 @@ public class ObjectManager : Singleton<ObjectManager>
 		{
 			ObjectPoolDict.Remove(crc);
 		}
+	}
+
+	/// <summary>
+	/// 根据实例化对象直接获取离线数据
+	/// </summary>
+	/// <param name="go">GameObject</param>
+	/// <returns></returns>
+	public OfflineData FindOfflineData(GameObject go)
+	{
+		OfflineData data  = null;
+		ResourceObject resobj = null;
+		ResourceObjectDict.TryGetValue(go.GetInstanceID(), out resobj);
+		if(resobj != null)
+		{
+			data = resobj.offlineData;
+		}		
+		return data;
 	}
 
 	/* ---------------------------------------资源预加载-------------------------------------------------- */
@@ -196,6 +215,7 @@ public class ObjectManager : Singleton<ObjectManager>
 			if(resobj.ResItem.obj != null)
 			{
 				resobj.CloneObj = GameObject.Instantiate(resobj.ResItem.obj) as GameObject;
+				resobj.offlineData = resobj.CloneObj.GetComponent<OfflineData>();
 			}
 		}
 
@@ -227,15 +247,21 @@ public class ObjectManager : Singleton<ObjectManager>
 			//ResourceManager的引用计数
 			ResourceManager.Instance.IncreaseResourceRef(crc);
 
-			ResourceObject item = list[0];
+			ResourceObject resobj = list[0];
 			list.RemoveAt(0);
-			GameObject obj = item.CloneObj;
+			GameObject obj = resobj.CloneObj;
 			//编辑器下进行改名
 			//判空 比 obj == null 的效率要高
 			if(!System.Object.ReferenceEquals(obj,null))
 			{
 
-				item.Already = false;
+				//离线还原数据
+				if(!System.Object.ReferenceEquals(resobj.offlineData, null))
+				{
+					resobj.offlineData.ResetProp();
+				}
+
+				resobj.Already = false;
 
 #if UNITY_EDITOR
 				if(obj.name.EndsWith("(Recycla)"))
@@ -244,7 +270,7 @@ public class ObjectManager : Singleton<ObjectManager>
 				}
 #endif
 			}
-			return item;
+			return resobj;
 		}
 		return null;
 	}
@@ -324,6 +350,7 @@ public class ObjectManager : Singleton<ObjectManager>
 		else
 		{
 			resobj.CloneObj = GameObject.Instantiate(resobj.ResItem.obj) as GameObject;
+			resobj.offlineData = resobj.CloneObj.GetComponent<OfflineData>();
 		}
 
 		//加载完成 从正在加载的异步中移除记录
@@ -434,7 +461,7 @@ public class ObjectManager : Singleton<ObjectManager>
 				ObjectPoolDict.Add(resobj.Crc , tempList);
 			}
 			
-			if(resobj.CloneObj != null)
+			if(resobj.CloneObj)
 			{
 				//回收到父节点
 				if(recyclaParent)

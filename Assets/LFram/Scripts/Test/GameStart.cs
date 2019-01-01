@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameStart : MonoBehaviour 
 {
@@ -16,11 +17,22 @@ public class GameStart : MonoBehaviour
 		//加载配置表
 		AssetBundleManager.Instance.LoadAssetBundleConfig();
 		ResourceManager.Instance.Init(this);
+		//初始化场景Manager
+		GameMapManager.Instance.Init(this);
 		Transform recycla = this.transform.Find("RecyclaPool").transform;
 		Transform sceneTrs = this.transform.Find("SceneTrs").transform;
 		ObjectManager.Instance.Init(recycla, sceneTrs);
 
-	}
+		
+
+		//初始化UI
+		RectTransform uiRoot = this.transform.Find("UIRoot") as RectTransform;
+		RectTransform windowRoot = uiRoot.transform.Find("Window") as RectTransform;
+		Camera uiCamera = uiRoot.transform.Find("UICamera").GetComponent<Camera>();
+		EventSystem evets = uiRoot.transform.Find("EventSystem").GetComponent<EventSystem>();
+		UIMgr.Instance.Init(uiRoot, windowRoot, uiCamera, evets);
+
+	}	
 
 	void Start () 
 	{
@@ -41,7 +53,10 @@ public class GameStart : MonoBehaviour
 		//ObjectManager.Instance.InstantiateObjectAsync("Assets/GameData/Prefabs/Attack.prefab", OnInstantiateFinish, LoadResPriority.RES_HIGHT,null,true);
 
 		//预加载[实例化]资源
-		ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab", 10);
+		//ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab", 10);
+
+		//加载UI
+		
 	}
 
 	//资源异步加载回调
@@ -59,6 +74,9 @@ public class GameStart : MonoBehaviour
 
 	private void Update() 
 	{
+		//UI的Update
+		UIMgr.Instance.OnUpdate();
+
 		if(Input.GetKeyDown(KeyCode.A))
 		{
 			// audio.Stop();
@@ -67,7 +85,20 @@ public class GameStart : MonoBehaviour
 			// ResourceManager.Instance.DisposeResource(clip,true);
 
 			//卸载实例化的资源
-			ObjectManager.Instance.DisposeObject(obj);
+			//ObjectManager.Instance.DisposeObject(obj);
+
+			//显示UI
+			//UIMgr.Instance.OpenWindow("TestPanel.prefab",true);
+
+			// GameObject go = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true, false);
+			// ObjectManager.Instance.DisposeObject(go);
+			// go = null;
+
+			//预加载
+			ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab",2);
+
+			//加载场景
+			GameMapManager.Instance.LoadScene(GameConst.SCENE_MENU);
 		}
 		else if(Input.GetKeyDown(KeyCode.C))
 		{
@@ -75,13 +106,16 @@ public class GameStart : MonoBehaviour
 			//obj = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true);
 
 			//异步实例化资源
-			ObjectManager.Instance.InstantiateObjectAsync("Assets/GameData/Prefabs/Attack.prefab", OnInstantiateFinish, LoadResPriority.RES_HIGHT,null,true);
+			//ObjectManager.Instance.InstantiateObjectAsync("Assets/GameData/Prefabs/Attack.prefab", OnInstantiateFinish, LoadResPriority.RES_HIGHT,null,true);
+
+			//隐藏UI
+			//UIMgr.Instance.HidePanel("TestPanel.prefab");
 		}
 		else if(Input.GetKeyDown(KeyCode.Q))
 		{
 			//卸载实例化的资源
-			ObjectManager.Instance.DisposeObject(obj,0,true);
-			obj  = null;
+			//ObjectManager.Instance.DisposeObject(obj,0,true);
+			//obj  = null;
 		}
 	}
 

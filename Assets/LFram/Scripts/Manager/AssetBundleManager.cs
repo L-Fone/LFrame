@@ -188,7 +188,9 @@ public class AssetBundleManager : Singleton<AssetBundleManager>
 	/// <returns></returns>
 	public ResourceItem FindResouceItem(uint crc)
 	{
-		return m_ResourceItemDict[crc];
+		ResourceItem item = null;
+		m_ResourceItemDict.TryGetValue(crc, out item);		
+		return item;
 	}
 }
 

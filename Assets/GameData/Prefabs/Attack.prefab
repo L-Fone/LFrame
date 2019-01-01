@@ -87,6 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4772840300928796}
   - component: {fileID: 95769497666864528}
+  - component: {fileID: 114862054610293838}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -382,6 +383,49 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114862054610293838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1665189260126044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c52f54d2b9148b41947c313383b086a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mRigidbody: {fileID: 0}
+  mCollider: {fileID: 0}
+  mAllPoint:
+  - {fileID: 4772840300928796}
+  - {fileID: 4403923649943898}
+  - {fileID: 4205296252291192}
+  - {fileID: 4526568213056158}
+  - {fileID: 4128518379602718}
+  - {fileID: 4019562910602564}
+  mAllPointChildCount: 050000000000000000000000000000000000000000000000
+  mAllPointActive: 010101010101
+  mPos:
+  - {x: 0, y: -9.1, z: 15.29}
+  - {x: -0.00007890473, y: -0.012334824, z: -0.012802602}
+  - {x: -2.5894177, y: 15.203817, z: -1.5728939}
+  - {x: -0.00007890473, y: -0.012334824, z: -0.012802602}
+  - {x: -0, y: 0, z: -0.000000029802322}
+  - {x: -1.325592, y: 0, z: -0.000000029802322}
+  mScale:
+  - {x: 1, y: 1, z: 1}
+  - {x: 2.6343741, y: 2.6343741, z: 2.6343741}
+  - {x: 1, y: 1.0000002, z: 1}
+  - {x: 2.6343741, y: 2.6343741, z: 2.6343741}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  mRot:
+  - {x: 0, y: 1, z: 0, w: 0}
+  - {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  - {x: 0.5595559, y: -0.55855083, z: 0.42740768, w: -0.4384527}
+  - {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  - {x: -0.7071068, y: -1.7319123e-16, z: 0, w: 0.7071068}
+  - {x: -0.7071068, y: -1.7319123e-16, z: 0, w: 0.7071068}
 --- !u!137 &137068711583553618
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

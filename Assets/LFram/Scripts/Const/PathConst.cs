@@ -24,6 +24,15 @@ public class PathConst
 	//[ABConfig.ab] config包的加载路径
 	public static string ABCONFIG_LOAD_PATH = Application.streamingAssetsPath + "/";
 
+	//UI所在路径
+	public static string UI_PATH = "Assets/GameData/Prefabs/UI";
+
+	//特效所在路径
+	public static string EFFECT_PATH = "Assets/GameData/Prefabs/Effect";
+
+	//UI路径
+	public static string UI_PANEL_PATH = "Assets/GameData/Prefabs/UI/";
+
 	//是否从AssetBundle进行加载
 	public static bool LoadFromAssetBundle = false;
 
