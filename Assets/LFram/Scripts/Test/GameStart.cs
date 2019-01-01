@@ -90,12 +90,12 @@ public class GameStart : MonoBehaviour
 			//显示UI
 			//UIMgr.Instance.OpenWindow("TestPanel.prefab",true);
 
-			// GameObject go = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true, false);
+			// GameObject go = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab", true, true);
 			// ObjectManager.Instance.DisposeObject(go);
 			// go = null;
 
 			//预加载
-			ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab",2);
+			ObjectManager.Instance.PreLoadGameObject("Assets/GameData/Prefabs/Attack.prefab",5);
 
 			//加载场景
 			GameMapManager.Instance.LoadScene(GameConst.SCENE_MENU);
@@ -123,7 +123,7 @@ public class GameStart : MonoBehaviour
 	private void OnApplicationQuit() 
 	{
 #if UNITY_EDITOR
-		ResourceManager.Instance.ClearCache();
+		ResourceManager.Instance.ClearCache(true);
 		Resources.UnloadUnusedAssets();
 #endif
 	}

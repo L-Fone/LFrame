@@ -13,6 +13,10 @@ public class TestPanelUI : PanelBase
         AddButtonClickListener(testPanel.btn1, OnBtn1Click);
         AddButtonClickListener(testPanel.btn2, OnBtn2Click);
         AddButtonClickListener(testPanel.btn3, OnBtn3Click);
+
+        GameObject go = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab",true);
+        ObjectManager.Instance.DisposeObject(go);
+        ObjectManager.Instance.ClearCache();
     }
 	
 

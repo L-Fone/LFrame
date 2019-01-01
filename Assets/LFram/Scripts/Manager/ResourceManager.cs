@@ -120,12 +120,12 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 跳场景时清空缓存
     /// </summary>
-    public void ClearCache()
+    public void ClearCache(bool close = false)
     {
         List<ResourceItem> tempList = new List<ResourceItem>();
         foreach (ResourceItem item in AssetDict.Values)
         {
-            if(item.Clear)
+            if(item.Clear || close)
             {
                 tempList.Add(item);
             }
@@ -329,7 +329,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         CacheResource(path, ref item, crc, obj);
         resObj.ResItem = item;
-        resObj.Clear = item.Clear;
+        item.Clear = resObj.Clear;
 
         return resObj;
     }
