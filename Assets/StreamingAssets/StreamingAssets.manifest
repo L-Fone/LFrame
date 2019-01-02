@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2169348363
+CRC: 1469909458
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,18 +9,18 @@ AssetBundleManifest:
       Name: sound
       Dependencies: {}
     Info_2:
-      Name: abconfig
-      Dependencies: {}
-    Info_3:
       Name: attack
       Dependencies:
         Dependency_0: shader
-    Info_4:
+    Info_3:
       Name: gamestart
       Dependencies: {}
-    Info_5:
+    Info_4:
       Name: loadingpanel
       Dependencies: {}
-    Info_6:
+    Info_5:
       Name: testpanel
+      Dependencies: {}
+    Info_6:
+      Name: abconfig
       Dependencies: {}

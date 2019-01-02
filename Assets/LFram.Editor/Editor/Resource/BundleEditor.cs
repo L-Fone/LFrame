@@ -278,9 +278,22 @@ public class BundleEditor
 		//写入二进制	
 		string bytePath = PathConst.ABCONFIG_BYTES_PATH;
 		FileStream fs = new FileStream(bytePath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+		//清空
+		fs.Seek(0, SeekOrigin.Begin);
+		fs.SetLength(0);
+		//写入
 		BinaryFormatter bf = new BinaryFormatter();
 		bf.Serialize(fs, config);
 		fs.Close();
+		
+		//刷新
+		AssetDatabase.Refresh();
+
+		//把配置表打包成二进制文件
+		SetABName(PathConst.ABCONFIG_ABNAME, PathConst.ABCONFIG_BYTES_PATH);
+
+		
+
 	}
 
 
@@ -307,7 +320,8 @@ public class BundleEditor
 		for (int i = 0; i < files.Length; i++)
 		{
 			//判断如果本地文件名在要打AB包的列表里则保留 否则删除[以前遗留]无用的AB包
-			if(ContainsABName(files[i].Name, allBundleName) || files[i].Name.EndsWith(".meta"))
+			if(ContainsABName(files[i].Name, allBundleName) || files[i].Name.EndsWith(".meta") || 
+			files[i].Name.EndsWith(".manifest") || files[i].Name.Equals(PathConst.ABCONFIG_ABNAME))
 			{
 				continue;
 			}
