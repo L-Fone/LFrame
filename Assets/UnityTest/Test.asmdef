@@ -1,0 +1,14 @@
+{
+    "name": "Test",
+    "references": [
+        "Base",
+        "Resource",
+        "UIManager"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
