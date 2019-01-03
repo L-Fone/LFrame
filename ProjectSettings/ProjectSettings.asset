@@ -647,7 +647,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 5d3e8f0d-d231-4d50-ab01-e65d24d3908e
   projectName: RealFram
   organizationId: liufeng17

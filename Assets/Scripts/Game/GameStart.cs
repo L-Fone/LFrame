@@ -47,7 +47,7 @@ public class GameStart : MonoBehaviour
 
 
 
-		Debug.LogError("RegisterUI Done!!");
+		Debug.Log("Register All UI Done!!");
 	}
 
 	void Start () 

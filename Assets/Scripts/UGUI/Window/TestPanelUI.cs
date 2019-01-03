@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TestPanelUI : PanelBase 
 {
@@ -17,8 +19,36 @@ public class TestPanelUI : PanelBase
         GameObject go = ObjectManager.Instance.InstantiateObject("Assets/GameData/Prefabs/Attack.prefab",true);
         ObjectManager.Instance.DisposeObject(go);
         ObjectManager.Instance.ClearCache();
+
+        string imagePath1 = "Assets/GameData/Texture/test1.png";
+        string imagePath2 = "Assets/GameData/Texture/test2.png";
+
+        ResourceManager.Instance.AsyncLoadResource(imagePath1, OnLoadSpriteTest1, LoadResPriority.RES_SLOW,isSprite:true);
+        ResourceManager.Instance.AsyncLoadResource(imagePath2, OnLoadSpriteTest2, LoadResPriority.RES_MIDDLE,isSprite:true);
     }
-	
+
+
+   
+
+    //异步加载图片完成回调
+	void OnLoadSpriteTest1(string path, UnityEngine.Object obj, Hashtable param)
+	{
+		if(obj != null)
+		{
+			Sprite sp = obj as Sprite;
+			testPanel.test1.sprite = sp;
+		}
+	}
+
+    //异步加载图片完成回调
+	void OnLoadSpriteTest2(string path, UnityEngine.Object obj, Hashtable param)
+	{
+		if(obj != null)
+		{
+			Sprite sp = obj as Sprite;
+			testPanel.test2.sprite = sp;
+		}
+	}
 
     void OnBtn1Click()
     {

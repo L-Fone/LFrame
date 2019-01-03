@@ -143,7 +143,7 @@ public class PanelBase
 		Hashtable param = new Hashtable();
 		param["image"] = image;
 		param["native"] = setNativeSize;
-		ResourceManager.Instance.AsyncLoadResource(path, OnLoadSpriteFinish, LoadResPriority.RES_MIDDLE, param);
+		ResourceManager.Instance.AsyncLoadResource(path, OnLoadSpriteFinish, LoadResPriority.RES_MIDDLE, param, isSprite: true);
 		
 	}
 

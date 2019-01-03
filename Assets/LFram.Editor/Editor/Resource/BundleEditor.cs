@@ -20,6 +20,8 @@ public class BundleEditor
 	//[过滤]存储打包所需要的(有效的)文件路径的List
 	private static List<string> m_ConfigFile = new List<string>();
 
+	private static string BuildPath = "";
+
 
 	//初始化数据
 	private static void InitData()
@@ -28,9 +30,11 @@ public class BundleEditor
 		m_AllFileAB.Clear();
 		m_allPrefabDir.Clear();
 		m_ConfigFile.Clear();
+
+		BuildPath = PathConst.BUNDLE_TARGET_PATH + PathConst.GetDirPlatform();
 	}
 
-	[MenuItem("Tools/打包")]
+	[MenuItem("打包工具/只打出AssetBundle包")]
 	public static void Build()
 	{
 		InitData();
@@ -196,19 +200,30 @@ public class BundleEditor
 			}
 		}
 
+		//如果存放AB包文件夹不存在，则创建
+		if(!Directory.Exists(BuildPath))
+		{
+			Directory.CreateDirectory(BuildPath);
+		}
+
 		//删除没用的AB包
 		DeleteAB();
 
 		//生成AB包配置表
-		BuildABConfigToXML(resPathDict);
+		BuildABConfigToXML(resPathDict);		
 
 		//打包AB包
-		BuildPipeline.BuildAssetBundles
+		AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles
 		(
-			PathConst.BUNDLE_TARGET_PATH,//打包存储路径
+			BuildPath,//打包存储路径
 			BuildAssetBundleOptions.ChunkBasedCompression,//常用压缩方式
 			EditorUserBuildSettings.activeBuildTarget//打包平台(此处暂填编辑器使用的平台)
 		);
+
+		if(manifest == null)
+		{
+			Debug.LogError("AssetBundle 打包失败了！！！");
+		}
 	}
 
 	///<summary>
@@ -306,13 +321,13 @@ public class BundleEditor
 		string[] allBundleName = AssetDatabase.GetAllAssetBundleNames();
 		DirectoryInfo direction = null;
 		//通过路径获取文件夹信息
-		if(!Directory.Exists(PathConst.BUNDLE_TARGET_PATH))
+		if(!Directory.Exists(BuildPath))
 		{
-			direction = Directory.CreateDirectory(PathConst.BUNDLE_TARGET_PATH);
+			direction = Directory.CreateDirectory(BuildPath);
 		}
 		else
 		{
-			direction = new DirectoryInfo(PathConst.BUNDLE_TARGET_PATH);
+			direction = new DirectoryInfo(BuildPath);
 		}
 		//获取文件夹里面的所有文件
 		FileInfo[] files = direction.GetFiles("*",SearchOption.AllDirectories);
@@ -321,7 +336,7 @@ public class BundleEditor
 		{
 			//判断如果本地文件名在要打AB包的列表里则保留 否则删除[以前遗留]无用的AB包
 			if(ContainsABName(files[i].Name, allBundleName) || files[i].Name.EndsWith(".meta") || 
-			files[i].Name.EndsWith(".manifest") || files[i].Name.Equals(PathConst.ABCONFIG_ABNAME))
+			files[i].Name.EndsWith(".manifest") || files[i].Name.EndsWith(PathConst.ABCONFIG_ABNAME))
 			{
 				continue;
 			}

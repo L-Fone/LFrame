@@ -235,7 +235,7 @@ public class ResourceManager : Singleton<ResourceManager>
             {
                 obj = LoadAssetByEditor<T>(path);
             }            
-        }
+        }        
 #endif
 
         if(obj == null)
@@ -561,7 +561,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 异步加载资源[仅是不需要实例化的资源，如音频,图片等]
     /// </summary>
-    public void AsyncLoadResource(string path, OnAsyncObjFinish dealFinish, LoadResPriority priority, Hashtable param = null, uint crc = 0)
+    public void AsyncLoadResource(string path, OnAsyncObjFinish dealFinish, LoadResPriority priority, Hashtable param = null, uint crc = 0, bool isSprite = false)
     {
         if(crc == 0)
         {
@@ -585,6 +585,7 @@ public class ResourceManager : Singleton<ResourceManager>
             temp = m_AsyncLoadResParamPool.Spawn();
             temp.Crc = crc;
             temp.Path = path;
+            temp.isSprite = isSprite;
             temp.Priority = priority;
             LoadingAssetDict.Add(crc, temp);
             //添加进异步队列
@@ -666,6 +667,18 @@ public class ResourceManager : Singleton<ResourceManager>
             //遍历优先级
             for (int i = 0; i < (int)LoadResPriority.RES_NUM; i++)
             {
+                //按低中高优先级加载
+                //如果高级里面有东西
+                if(LoadingAssetList[(int)LoadResPriority.RES_HIGHT].Count > 0)
+                {
+                    i = (int)LoadResPriority.RES_HIGHT;
+                }
+                //如果中级里面有东西
+                else if(LoadingAssetList[(int)LoadResPriority.RES_MIDDLE].Count > 0)
+                {
+                    i = (int)LoadResPriority.RES_MIDDLE;
+                }
+
                 List<AsyncLoadResParam> loadingList = LoadingAssetList[i];
                 if(loadingList.Count <=0 )
                 {
@@ -682,8 +695,17 @@ public class ResourceManager : Singleton<ResourceManager>
 #if UNITY_EDITOR
                 if (!PathConst.LoadFromAssetBundle)
                 {
+                    
                     //编辑器下加载
-                    obj = LoadAssetByEditor<Object>(loadingItem.Path);
+                    if(loadingItem.isSprite)
+                    {
+                        obj = LoadAssetByEditor<Sprite>(loadingItem.Path);
+                    }
+                    else
+                    {
+                        obj = LoadAssetByEditor<Object>(loadingItem.Path);
+                    }
+
                     //模拟异步加载
                     yield return new WaitForSeconds(0.5f);
 
