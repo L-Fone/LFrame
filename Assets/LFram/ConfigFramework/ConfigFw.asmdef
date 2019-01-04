@@ -1,3 +1,11 @@
-﻿{
-	"name": "ConfigFw"
+{
+    "name": "ConfigFw",
+    "references": [
+        "Resource",
+        "Base"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }

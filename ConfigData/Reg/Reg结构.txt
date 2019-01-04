@@ -1,0 +1,18 @@
+Data = 最外层
+Data name = 数据管理类名
+Data from = Excel名
+Data to = 对应xml名
+
+variable = 变量
+variable name = 对应类里的存储列表名
+variable type = 类型
+
+list = 列表
+list name = 数据基类名
+list sheetname = excel页签名
+list mainkey = 存储主key
+
+list包含的variable = 每一个字段
+variable name = 类里字段
+variable col = 对应Excel字段
+variable type = 该字段数据类型

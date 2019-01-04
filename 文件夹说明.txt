@@ -1,2 +1,3 @@
 BuildTarget = 打包APP生成目录
 AssetBundle = AB包生成目录
+ConfigData = Excel配置表数据目录

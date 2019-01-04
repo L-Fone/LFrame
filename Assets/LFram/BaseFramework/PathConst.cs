@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PathConst
 {
+	/* ----------------------------------------AB包路径------------------------------------------------ */
 	//AB配置表名字
 	public static string ABCONFIG_NAME = "AssetBundleConfig";
 	//ABConfig表所在的AB包名字
@@ -24,6 +25,10 @@ public class PathConst
 	//[ABConfig.ab] config包的加载路径
 	public static string ABCONFIG_LOAD_PATH = GetReadABPath();
 
+
+
+	/* ------------------------------------------UI及特效路径---------------------------------------------------- */
+
 	//UI所在路径
 	public static string UI_PATH = "Assets/GameData/Prefabs/UI";
 
@@ -33,6 +38,27 @@ public class PathConst
 	//UI路径
 	public static string UI_PANEL_PATH = "Assets/GameData/Prefabs/UI/";
 
+
+
+	/* --------------------------------------------Excel配置表路径-------------------------------------------------- */
+
+	//[配置表]文件存放路径
+	public static string CONFIG_PATH = "Assets/GameData/Data/";
+
+	//[配置表]XML文件存放文件夹
+	public static string XML_DIR = "Xml";
+	
+	//[配置表]二进制文件存放文件夹
+	public static string BINARY_DIR = "Binary";
+
+	//[配置表]配置表类存放路径
+	public static string CONFIG_DATA_PATH = "Assets/Scripts/Config/";
+
+
+
+
+	/* ------------------------------------------加载参数设置----------------------------------------------------------- */
+
 	//是否从AssetBundle进行加载
 	public static bool LoadFromAssetBundle = false;
 
@@ -41,6 +67,11 @@ public class PathConst
 
 	//ResourceManager最大缓存个数
 	public static int MAX_CACHE_COUNT = 500;
+
+
+
+
+	/* ------------------------------------------其他相关------------------------------------------------------------ */
 
 	/// <summary>
 	/// 根据平台获取对应文件夹

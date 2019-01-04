@@ -23,7 +23,7 @@ public class GameStart : MonoBehaviour
 		Transform sceneTrs = this.transform.Find("SceneTrs").transform;
 		ObjectManager.Instance.Init(recycla, sceneTrs);
 
-		
+		/* -------------------------------------------------------------- */
 
 		//初始化UI
 		RectTransform uiRoot = this.transform.Find("UIRoot") as RectTransform;
@@ -31,8 +31,11 @@ public class GameStart : MonoBehaviour
 		Camera uiCamera = uiRoot.transform.Find("UICamera").GetComponent<Camera>();
 		EventSystem evets = uiRoot.transform.Find("EventSystem").GetComponent<EventSystem>();
 		UIMgr.Instance.Init(uiRoot, windowRoot, uiCamera, evets);
-
+		//注册UI
 		RegisterUI();
+
+		//初始化配置表
+		LoadConfiger();
 	}	
 
 	/* ------------------------------------------注册UI-------------------------------------------------------- */
@@ -48,6 +51,14 @@ public class GameStart : MonoBehaviour
 
 
 		Debug.Log("Register All UI Done!!");
+	}
+
+	/// <summary>
+	/// 加载配置表
+	/// </summary>
+	public void LoadConfiger()
+	{
+
 	}
 
 	void Start () 
