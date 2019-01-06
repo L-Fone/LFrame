@@ -54,13 +54,18 @@ public class PathConst
 	//[配置表]配置表类存放路径
 	public static string CONFIG_DATA_PATH = "Assets/Scripts/Config/";
 
+    //Excel路径
+    public static string EXCEL_PATH = Application.dataPath + "/../ConfigData/Excel/";
+
+    //Reg中间XML路径
+    public static string REG_PATH = Application.dataPath + "/../ConfigData/Reg/";
 
 
 
-	/* ------------------------------------------加载参数设置----------------------------------------------------------- */
+    /* ------------------------------------------加载参数设置----------------------------------------------------------- */
 
-	//是否从AssetBundle进行加载
-	public static bool LoadFromAssetBundle = false;
+    //是否从AssetBundle进行加载
+    public static bool LoadFromAssetBundle = false;
 
 	//异步资源加载 分帧延时[单位微秒]
 	public static long MAX_LOADRESOURCE_TIME = 200000;

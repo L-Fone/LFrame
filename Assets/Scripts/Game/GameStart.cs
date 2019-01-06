@@ -58,8 +58,9 @@ public class GameStart : MonoBehaviour
 	/// </summary>
 	public void LoadConfiger()
 	{
-
-	}
+        ConfigMgr.Instance.LoadData<MonsterData>(ConfigPath.MONSTERDATA_PATH);
+        ConfigMgr.Instance.LoadData<BuffData>(ConfigPath.BUFFDATA_PATH);
+    }
 
 	void Start () 
 	{

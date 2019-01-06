@@ -226,15 +226,26 @@ public class ResourceManager : Singleton<ResourceManager>
         if(!PathConst.LoadFromAssetBundle)
         {
             item = AssetBundleManager.Instance.FindResouceItem(crc);
-
-            if(item.obj != null)
+            if (item != null && item.CurBundle != null)
             {
-                obj = item.obj as T;
+                if (item.obj != null)
+                {
+                    obj = item.obj as T;
+                }
+                else
+                {
+                    obj = item.CurBundle.LoadAsset<T>(item.AssetName);
+                }
             }
             else
             {
-                obj = LoadAssetByEditor<T>(path);
-            }            
+                if (item == null)
+                {
+                    item = new ResourceItem();
+                    item.Crc = crc;
+                }                
+                obj = LoadAssetByEditor<T>(path);                
+            }      
         }        
 #endif
 

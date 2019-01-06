@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuffData>
+  <AllBuffList Id="1" Name="全局BUFF0" OutLook="Assets/GameData/..." Time="2288" Buff="None">
+    <AllString>test0</AllString>
+    <AllString>param0</AllString>
+    <AllString>ppppp0</AllString>
+    <AllBuffList Id="1" Name="name0" />
+    <AllBuffList Id="3" Name="name1" />
+    <AllBuffList Id="2" Name="name2" />
+  </AllBuffList>
+  <AllBuffList Id="2" Name="全局BUFF1" OutLook="Assets/GameData/..." Time="2610" Buff="None">
+    <AllString>test1</AllString>
+    <AllString>param1</AllString>
+    <AllString>ppppp1</AllString>
+    <AllBuffList Id="4" Name="name0" />
+    <AllBuffList Id="1" Name="name1" />
+  </AllBuffList>
+  <AllBuffList Id="3" Name="全局BUFF2" OutLook="Assets/GameData/..." Time="4344" Buff="None">
+    <AllString>test2</AllString>
+    <AllString>param2</AllString>
+    <AllString>ppppp2</AllString>
+    <AllBuffList Id="2" Name="name0" />
+    <AllBuffList Id="3" Name="name1" />
+    <AllBuffList Id="6" Name="name2" />
+  </AllBuffList>
+  <AllBuffList Id="4" Name="全局BUFF3" OutLook="Assets/GameData/..." Time="3545" Buff="Bingdong">
+    <AllString>test3</AllString>
+    <AllString>param3</AllString>
+    <AllString>ppppp3</AllString>
+    <AllBuffList Id="0" Name="name0" />
+    <AllBuffList Id="4" Name="name1" />
+  </AllBuffList>
+  <AllBuffList Id="5" Name="全局BUFF4" OutLook="Assets/GameData/..." Time="1550" Buff="Du">
+    <AllString>test4</AllString>
+    <AllString>param4</AllString>
+    <AllString>ppppp4</AllString>
+    <AllBuffList Id="0" Name="name0" />
+    <AllBuffList Id="1" Name="name1" />
+  </AllBuffList>
+  <AllBuffList Id="6" Name="全局BUFF5" OutLook="Assets/GameData/..." Time="1430" Buff="Du">
+    <AllString>test5</AllString>
+    <AllString>param5</AllString>
+    <AllString>ppppp5</AllString>
+    <AllBuffList Id="3" Name="name0" />
+  </AllBuffList>
+  <AllBuffList Id="7" Name="全局BUFF6" OutLook="Assets/GameData/..." Time="3484" Buff="Du">
+    <AllString>test6</AllString>
+    <AllString>param6</AllString>
+    <AllString>ppppp6</AllString>
+    <AllBuffList Id="2" Name="name0" />
+    <AllBuffList Id="1" Name="name1" />
+    <AllBuffList Id="3" Name="name2" />
+    <AllBuffList Id="4" Name="name3" />
+  </AllBuffList>
+  <AllBuffList Id="8" Name="全局BUFF7" OutLook="Assets/GameData/..." Time="1737" Buff="Bingdong">
+    <AllString>test7</AllString>
+    <AllString>param7</AllString>
+    <AllString>ppppp7</AllString>
+    <AllBuffList Id="2" Name="name0" />
+  </AllBuffList>
+  <AllBuffList Id="9" Name="全局BUFF8" OutLook="Assets/GameData/..." Time="1394" Buff="None">
+    <AllString>test8</AllString>
+    <AllString>param8</AllString>
+    <AllString>ppppp8</AllString>
+    <AllBuffList Id="4" Name="name0" />
+  </AllBuffList>
+  <AllBuffList Id="10" Name="全局BUFF9" OutLook="Assets/GameData/..." Time="3550" Buff="Du">
+    <AllString>test9</AllString>
+    <AllString>param9</AllString>
+    <AllString>ppppp9</AllString>
+    <AllBuffList Id="2" Name="name0" />
+  </AllBuffList>
+  <AllMonsterBuffList Id="1" Name="怪物BUFF0" OutLook="Assets/GameData/..." Time="43393" Buff="Ranshao">
+    <AllString>MonsterTest0</AllString>
+    <AllString>MonsterParam0</AllString>
+    <AllBuffList Id="8" Name="name0" />
+    <AllBuffList Id="5" Name="name1" />
+    <AllBuffList Id="9" Name="name2" />
+    <AllBuffList Id="3" Name="name3" />
+    <AllBuffList Id="5" Name="name4" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="2" Name="怪物BUFF1" OutLook="Assets/GameData/..." Time="14125" Buff="Du">
+    <AllString>MonsterTest1</AllString>
+    <AllString>MonsterParam1</AllString>
+    <AllBuffList Id="6" Name="name0" />
+    <AllBuffList Id="2" Name="name1" />
+    <AllBuffList Id="10" Name="name2" />
+    <AllBuffList Id="10" Name="name3" />
+    <AllBuffList Id="12" Name="name4" />
+    <AllBuffList Id="6" Name="name5" />
+    <AllBuffList Id="11" Name="name6" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="3" Name="怪物BUFF2" OutLook="Assets/GameData/..." Time="25990" Buff="Du">
+    <AllString>MonsterTest2</AllString>
+    <AllString>MonsterParam2</AllString>
+    <AllBuffList Id="3" Name="name0" />
+    <AllBuffList Id="9" Name="name1" />
+    <AllBuffList Id="6" Name="name2" />
+    <AllBuffList Id="8" Name="name3" />
+    <AllBuffList Id="13" Name="name4" />
+    <AllBuffList Id="9" Name="name5" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="4" Name="怪物BUFF3" OutLook="Assets/GameData/..." Time="19148" Buff="Ranshao">
+    <AllString>MonsterTest3</AllString>
+    <AllString>MonsterParam3</AllString>
+    <AllBuffList Id="5" Name="name0" />
+    <AllBuffList Id="7" Name="name1" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="5" Name="怪物BUFF4" OutLook="Assets/GameData/..." Time="44538" Buff="None">
+    <AllString>MonsterTest4</AllString>
+    <AllString>MonsterParam4</AllString>
+    <AllBuffList Id="9" Name="name0" />
+    <AllBuffList Id="5" Name="name1" />
+    <AllBuffList Id="8" Name="name2" />
+    <AllBuffList Id="7" Name="name3" />
+    <AllBuffList Id="10" Name="name4" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="6" Name="怪物BUFF5" OutLook="Assets/GameData/..." Time="30580" Buff="Du">
+    <AllString>MonsterTest5</AllString>
+    <AllString>MonsterParam5</AllString>
+    <AllBuffList Id="4" Name="name0" />
+    <AllBuffList Id="9" Name="name1" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="7" Name="怪物BUFF6" OutLook="Assets/GameData/..." Time="11658" Buff="Ranshao">
+    <AllString>MonsterTest6</AllString>
+    <AllString>MonsterParam6</AllString>
+    <AllBuffList Id="3" Name="name0" />
+    <AllBuffList Id="2" Name="name1" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="8" Name="怪物BUFF7" OutLook="Assets/GameData/..." Time="19712" Buff="Du">
+    <AllString>MonsterTest7</AllString>
+    <AllString>MonsterParam7</AllString>
+    <AllBuffList Id="0" Name="name0" />
+    <AllBuffList Id="5" Name="name1" />
+    <AllBuffList Id="5" Name="name2" />
+    <AllBuffList Id="11" Name="name3" />
+    <AllBuffList Id="4" Name="name4" />
+    <AllBuffList Id="14" Name="name5" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="9" Name="怪物BUFF8" OutLook="Assets/GameData/..." Time="48785" Buff="Du">
+    <AllString>MonsterTest8</AllString>
+    <AllString>MonsterParam8</AllString>
+    <AllBuffList Id="2" Name="name0" />
+    <AllBuffList Id="10" Name="name1" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="10" Name="怪物BUFF9" OutLook="Assets/GameData/..." Time="47474" Buff="Ranshao">
+    <AllString>MonsterTest9</AllString>
+    <AllString>MonsterParam9</AllString>
+    <AllBuffList Id="3" Name="name0" />
+    <AllBuffList Id="7" Name="name1" />
+    <AllBuffList Id="9" Name="name2" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="11" Name="怪物BUFF10" OutLook="Assets/GameData/..." Time="30718" Buff="Ranshao">
+    <AllString>MonsterTest10</AllString>
+    <AllString>MonsterParam10</AllString>
+    <AllBuffList Id="8" Name="name0" />
+    <AllBuffList Id="1" Name="name1" />
+    <AllBuffList Id="4" Name="name2" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="12" Name="怪物BUFF11" OutLook="Assets/GameData/..." Time="31237" Buff="Ranshao">
+    <AllString>MonsterTest11</AllString>
+    <AllString>MonsterParam11</AllString>
+    <AllBuffList Id="6" Name="name0" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="13" Name="怪物BUFF12" OutLook="Assets/GameData/..." Time="25510" Buff="Du">
+    <AllString>MonsterTest12</AllString>
+    <AllString>MonsterParam12</AllString>
+    <AllBuffList Id="5" Name="name0" />
+    <AllBuffList Id="3" Name="name1" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="14" Name="怪物BUFF13" OutLook="Assets/GameData/..." Time="48694" Buff="Du">
+    <AllString>MonsterTest13</AllString>
+    <AllString>MonsterParam13</AllString>
+    <AllBuffList Id="8" Name="name0" />
+    <AllBuffList Id="9" Name="name1" />
+    <AllBuffList Id="3" Name="name2" />
+    <AllBuffList Id="4" Name="name3" />
+  </AllMonsterBuffList>
+  <AllMonsterBuffList Id="15" Name="怪物BUFF14" OutLook="Assets/GameData/..." Time="44238" Buff="Du">
+    <AllString>MonsterTest14</AllString>
+    <AllString>MonsterParam14</AllString>
+    <AllBuffList Id="9" Name="name0" />
+    <AllBuffList Id="4" Name="name1" />
+    <AllBuffList Id="3" Name="name2" />
+    <AllBuffList Id="3" Name="name3" />
+    <AllBuffList Id="13" Name="name4" />
+  </AllMonsterBuffList>
+</BuffData>
