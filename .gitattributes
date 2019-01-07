@@ -1,0 +1,3 @@
+*.xml linguist-language=C#
+*.xlsx linguist-language=C#
+*.md linguist-language=C#
